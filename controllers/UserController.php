@@ -25,7 +25,7 @@ class UserController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view','logout'],
+                        'actions' => ['index', 'view'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -34,15 +34,6 @@ class UserController extends Controller
                         'allow' => true,
                         'matchCallback' => function(){ return 1 == Yii::$app->user->getId(); }, //only admin (ID=1) can make CRUD operations
                     ],
-                ],
-            ],
-            'verbs' => [
-                'class'   => VerbFilter::className(),
-                'actions' => [
-                    'logout'     => ['post'],
-                    'createUser' => ['post'],
-                    'updateUser' => ['post'],
-                    'deleteUser' => ['post'],
                 ],
             ],
         ];
