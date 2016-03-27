@@ -20,7 +20,8 @@ class m160324_155110_user_table_creation extends Migration
                 'name' => $this->string(),
                 'auth_key' => $this->string(32),
                 'password_hash' => $this->string(60)->notNull(),
-            ]
+            ],
+            $tableOptions
         );
     }
 

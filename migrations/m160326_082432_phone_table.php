@@ -21,7 +21,8 @@ class m160326_082432_phone_table extends Migration
                 'name' => $this->string(50)->notNull(),
                 'address' => $this->string()->notNull(),
                 'description' => $this->string(512),
-            ]
+            ],
+            $tableOptions
         );
     }
 
