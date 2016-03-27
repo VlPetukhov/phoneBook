@@ -9,9 +9,12 @@ class m160324_164514_admin_user_creation extends Migration
     {
         $user = new User(['scenario' => 'create']);
 
+        $password = 'qwerty';
+
         $user->email = 'admin@example.com';
         $user->name = 'Administrator';
-        $user->password = 'qwerty';
+        $user->password = $password;
+        $user->password_repeat = $password;
 
         return $user->save();
     }
