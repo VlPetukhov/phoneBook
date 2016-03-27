@@ -10,6 +10,7 @@ use app\models\PhoneNumber;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\HttpException;
 
 class PhoneController extends Controller
 {
@@ -28,6 +29,11 @@ class PhoneController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                    [
+                        'actions' => ['ajax'],
+                        'allow' => true,
+                        'roles' => ['?', '@'],
+                    ],
                 ],
             ],
         ];
@@ -43,6 +49,27 @@ class PhoneController extends Controller
                 'class' => 'yii\web\ErrorAction',
             ],
         ];
+    }
+
+    /**
+     * @throws HttpException
+     * @return string
+     */
+    public function actionAjax()
+    {
+        $searchModel = new PhoneNumber(['scenario' => 'search']);
+
+        if (Yii::$app->request->isAjax) {
+            return $this->renderPartial(
+                'ajax-search',
+                [
+                    'dataProvider' => $searchModel->search(Yii::$app->request->get()),
+                    'searchModel' => $searchModel,
+                ]
+            );
+        }
+
+        throw new HttpException(404, 'Page not found!');
     }
 
     /**

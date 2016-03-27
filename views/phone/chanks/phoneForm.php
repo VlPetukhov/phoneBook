@@ -27,6 +27,8 @@ $isNew = 'create' === $model->scenario;
             ]
         ]
     );?>
+    <?= $form->field($model, 'surname');?>
+    <?= $form->field($model, 'name');?>
     <?= $form->field($model, 'address');?>
     <?= $form->field($model, 'description')->textarea();?>
     <div class="form-group">

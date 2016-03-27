@@ -26,6 +26,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'number',
                     'value' => function( PhoneNumber $model, $key, $index){ return PhoneNumber::format($model->number); }
                 ],
+                'surname',
+                'name',
                 'address',
                 [
                     'class' => 'yii\grid\ActionColumn',

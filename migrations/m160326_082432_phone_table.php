@@ -9,7 +9,7 @@ class m160326_082432_phone_table extends Migration
         $tableOptions = null;
 
         if ( 'mysql' === $this->db->driverName ) {
-            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
+            $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=MyISAM';
         }
 
         $this->createTable(
@@ -17,6 +17,8 @@ class m160326_082432_phone_table extends Migration
             [
                 'id' => $this->primaryKey(),
                 'number' => $this->string(12)->unique()->notNull(),
+                'surname' => $this->string(30)->notNull(),
+                'name' => $this->string(50)->notNull(),
                 'address' => $this->string()->notNull(),
                 'description' => $this->string(512),
             ]

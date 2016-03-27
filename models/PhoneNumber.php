@@ -12,6 +12,8 @@ use yii\db\ActiveRecord;
 
 class PhoneNumber extends ActiveRecord
 {
+    public $fullname;
+
     /**
      * @return string
      */
@@ -26,17 +28,18 @@ class PhoneNumber extends ActiveRecord
     public function rules()
     {
         return [
-            [['number', 'address'], 'required', 'on' => ['create']],
+            [['number', 'surname', 'name', 'address'], 'required', 'on' => ['create']],
             [['number', 'address', 'description'], 'trim', 'on' => ['create', 'update']],
 
-            [['number'], 'match', 'pattern' => '/^[\d ()+-]+$/i', 'on' => ['create', 'update']],
+            [['number'], 'match', 'pattern' => '/^[+]?[\d ()-]+$/i', 'on' => ['create', 'update']],
 
+            [['surname'], 'string', 'max' => 30, 'on' => ['create', 'update']],
+            [['name'], 'string', 'max' => 50, 'on' => ['create', 'update']],
             [['address'], 'string', 'max' => 255, 'on' => ['create', 'update']],
 
             [['description'], 'string', 'max' => 512, 'on' => ['create', 'update']],
 
-            [['number'], 'filter', 'filter' => [$this, 'clearNumber'], 'on' => 'search'],
-            [['id', 'number', 'address'], 'safe', 'on' => 'search'],
+            [['id','fullname', 'surname', 'name', 'number', 'address'], 'safe', 'on' => 'search'],
         ];
     }
 
@@ -111,7 +114,13 @@ class PhoneNumber extends ActiveRecord
         }
 
         $query->andFilterWhere(['id' => $this->id]);
-        $query->andFilterWhere(['like', 'number', $this->number]);
+        $query->andFilterWhere(['like', 'number', static::clearNumber($this->number)]);
+
+        if ( isset($this->fullname) ) {
+            $query->andWhere("MATCH( surname, name ) AGAINST ( :query_search IN BOOLEAN MODE)")
+                ->addParams([':query_search' => $this->fullname . '*' ]);
+        }
+
         $query->andFilterWhere(['like', 'address', $this->address]);
 
         return $dataProvider;

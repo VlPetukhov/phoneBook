@@ -24,6 +24,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'label' => $model->getAttributeLabel('number'),
                     'value' => PhoneNumber::format($model->number),
                 ],
+                'surname',
+                'name',
                 'address',
                 'description',
             ]
